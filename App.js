@@ -8,45 +8,51 @@ import MealsDetailScreen from "./screens/MealDetailScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import { Ionicons } from "@expo/vector-icons";
+import FavoritesContextProvider from "./store/context/favorites-context";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
 	return (
-		<Drawer.Navigator
-			screenOptions={{
-				headerStyle: { backgroundColor: "#202020" },
-				headerTintColor: "#fff",
-				sceneContainerStyle: { backgroundColor: "#373737" },
-				headerShadowVisible: false,
-				drawerContentStyle: {
-					backgroundColor: "#202020",
-				},
-				drawerActiveTintColor: "#fff",
-				drawerInactiveTintColor: "#aaa",
-			}}
-		>
-			<Drawer.Screen
-				name="Categories"
-				component={CategoriesScreen}
-				options={{
-					title: "All Categories",
-					drawerIcon: ({ color }) => (
-						<Ionicons name="list" size={16} color={color} />
-					),
-				}}
-			/>
-			<Drawer.Screen
-				name="Favorites"
-				component={FavoritesScreen}
-				options={{
-					drawerIcon: ({ color }) => (
-						<Ionicons name="heart" size={16} color={color} />
-					),
-				}}
-			/>
-		</Drawer.Navigator>
+		<>
+			<StatusBar style="light" />
+			<FavoritesContextProvider>
+				<Drawer.Navigator
+					screenOptions={{
+						headerStyle: { backgroundColor: "#202020" },
+						headerTintColor: "#fff",
+						sceneContainerStyle: { backgroundColor: "#373737" },
+						headerShadowVisible: false,
+						drawerContentStyle: {
+							backgroundColor: "#202020",
+						},
+						drawerActiveTintColor: "#fff",
+						drawerInactiveTintColor: "#aaa",
+					}}
+				>
+					<Drawer.Screen
+						name="Categories"
+						component={CategoriesScreen}
+						options={{
+							title: "All Categories",
+							drawerIcon: ({ color }) => (
+								<Ionicons name="list" size={16} color={color} />
+							),
+						}}
+					/>
+					<Drawer.Screen
+						name="Favorites"
+						component={FavoritesScreen}
+						options={{
+							drawerIcon: ({ color }) => (
+								<Ionicons name="heart" size={16} color={color} />
+							),
+						}}
+					/>
+				</Drawer.Navigator>
+			</FavoritesContextProvider>
+		</>
 	);
 }
 
