@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MEALS, CATEGORIES } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
+import MealsList from "../components/MealsList";
 
 function MealsOverviewScreen() {
 	const route = useRoute();
@@ -20,26 +21,9 @@ function MealsOverviewScreen() {
 		});
 	}, [navigation, categoryId]);
 
-	function renderMeal({ item }) {
-		const mealItemProps = {
-			id: item.id,
-			title: item.title,
-			imageUrl: item.imageUrl,
-			duration: item.duration,
-			complexity: item.complexity,
-			affordability: item.affordability,
-		};
-
-		return <MealItem {...mealItemProps} />;
-	}
-
 	return (
 		<View style={styles.container}>
-			<FlatList
-				data={displayedMeals}
-				keyExtractor={(item) => item.id}
-				renderItem={renderMeal}
-			/>
+			<MealsList meals={displayedMeals} />
 		</View>
 	);
 }
