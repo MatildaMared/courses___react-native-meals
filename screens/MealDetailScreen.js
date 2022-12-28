@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import {
 	View,
 	Text,
@@ -11,15 +11,22 @@ import {
 import IconButton from "../components/IconButton";
 import MealDetails from "../components/MealDetails";
 import { MEALS } from "../data/dummy-data";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 function MealsDetailScreen() {
+	const { ids, addFavorite, removeFavorite } = useContext(FavoritesContext);
 	const route = useRoute();
 	const { mealId } = route.params;
 	const navigation = useNavigation();
 	const mealData = MEALS.find((meal) => meal.id === mealId);
+	let isFavorite = ids.includes(mealId);
 
 	function favoriteButtonPressHandler() {
-		console.log("Favorite button pressed");
+		if (isFavorite) {
+			removeFavorite(mealId);
+		} else {
+			addFavorite(mealId);
+		}
 	}
 
 	useLayoutEffect(() => {
@@ -29,13 +36,13 @@ function MealsDetailScreen() {
 			title: mealTitle,
 			headerRight: () => (
 				<IconButton
-					iconName={"heart-outline"}
+					iconName={isFavorite ? "heart" : "heart-outline"}
 					color="white"
 					onPress={favoriteButtonPressHandler}
 				/>
 			),
 		});
-	}, [navigation, mealData, favoriteButtonPressHandler]);
+	}, [navigation, mealData, favoriteButtonPressHandler, ids]);
 
 	return (
 		<ScrollView style={styles.container}>
