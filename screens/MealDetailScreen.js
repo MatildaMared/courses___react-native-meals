@@ -1,6 +1,14 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	ScrollView,
+	Button,
+} from "react-native";
+import IconButton from "../components/IconButton";
 import MealDetails from "../components/MealDetails";
 import { MEALS } from "../data/dummy-data";
 
@@ -10,13 +18,24 @@ function MealsDetailScreen() {
 	const navigation = useNavigation();
 	const mealData = MEALS.find((meal) => meal.id === mealId);
 
+	function favoriteButtonPressHandler() {
+		console.log("Favorite button pressed");
+	}
+
 	useLayoutEffect(() => {
 		const mealTitle = mealData.title;
 
 		navigation.setOptions({
 			title: mealTitle,
+			headerRight: () => (
+				<IconButton
+					iconName={"heart-outline"}
+					color="white"
+					onPress={favoriteButtonPressHandler}
+				/>
+			),
 		});
-	}, [navigation, mealData]);
+	}, [navigation, mealData, favoriteButtonPressHandler]);
 
 	return (
 		<ScrollView style={styles.container}>
